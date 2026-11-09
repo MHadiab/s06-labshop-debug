@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace LabShop;
 
 // Pricing rules for LabShop orders. All amounts are in toman.
@@ -53,7 +55,14 @@ public static class Pricing
         {
             return 0;
         }
-        var coupon = FindCoupon(order.CouponCode);
+        var cop = order.CouponCode.ToUpper().Trim();   
+        
+        var coupon = FindCoupon(cop) ;
+        if (coupon == null)
+        {
+            coupon = new Coupon("fixed", 0);
+        }
+        
         if (coupon.Kind == "fixed")
         {
             return Math.Min(coupon.Value, amount);
