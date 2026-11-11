@@ -38,4 +38,15 @@ public class PricingTests
         Assert.Equal(40_000, Pricing.ShippingFor(999_990));
         Assert.Equal(0, Pricing.ShippingFor(1_000_000));
     }
+    
+    [Fact]
+    public void Bulk_discount_combines_same_sku_quantities()
+    {
+        var order = MakeOrder("",
+            new Item("K07", 38_500, 6),
+            new Item("M21", 12_990, 1),
+            new Item("K07", 38_500, 6));
+        var bill = Pricing.PriceOrder(order);
+        Assert.Equal(46_200, bill.Discount);
+    }
 }
