@@ -39,9 +39,13 @@ public static class Pricing
     public static long BulkDiscount(List<Item> items)
     {
         long discount = 0;
+        var quantitiesBySku = items
+            .GroupBy(item => item.Sku)
+            .ToDictionary(group => group.Key, group => group.Sum(item => item.Qty));
+
         foreach (var item in items)
         {
-            if (item.Qty >= BulkMinQty)
+            if (quantitiesBySku[item.Sku] >= BulkMinQty)
             {
                 discount += item.UnitPrice * item.Qty * BulkPercent / 100;
             }
