@@ -21,7 +21,7 @@ public static class Report
             var bill = Pricing.PriceOrder(order);
             Console.WriteLine($"{order.Id,5}  {order.Customer,-10} {bill.Subtotal,10} {bill.Discount,9} " +
                               $"{bill.Tax,9} {bill.Shipping,9} {bill.Total,11}");
-            if (order.CouponCode != "" && Pricing.FindCoupon(order.CouponCode) == null)
+            if (order.CouponCode != "" && Pricing.FindCoupon(order.CouponCode.Trim().ToUpper()) == null)
             {
                 invalid++;
             }
